@@ -35,17 +35,31 @@ class User(SQLModel, table=True):
     tasks: List["Task"] = Relationship(back_populates="user")
     bookmarks: List["Bookmark"] = Relationship(back_populates="user")
 
-class Task(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(foreign_key="user.id")
+class TaskBase(SQLModel):
     title: str
     description: Optional[str] = None
     due_date: datetime
     priority: Priority = Field(default=Priority.MEDIUM)
     is_completed: bool = Field(default=False)
     type: TaskType = Field(default=TaskType.ASSIGNMENT)
+
+class Task(TaskBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="user.id")
     
     user: Optional[User] = Relationship(back_populates="tasks")
+
+class TaskCreate(TaskBase):
+    pass
+
+class TaskUpdate(SQLModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    due_date: Optional[datetime] = None
+    priority: Optional[Priority] = None
+    is_completed: Optional[bool] = None
+    type: Optional[TaskType] = None
+
 
 class Opportunity(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
