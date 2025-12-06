@@ -73,7 +73,7 @@ The API is organized into versioned endpoints (`/api/v1`).
 
 1.  **Clone the repository**
     ```bash
-    git clone <repo-url>
+    git clone https://github.com/Campulse24/campulse_backend
     cd campulse_backend
     ```
 
